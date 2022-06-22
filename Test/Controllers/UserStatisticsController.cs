@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Test.Models;
 
 namespace Test.Controllers
 {
@@ -12,9 +13,11 @@ namespace Test.Controllers
     public class UserStatisticsController : ControllerBase
     {
         private readonly ILogger<UserStatisticsController> _logger;
+        private readonly ApplicationContext _db;
 
-        public UserStatisticsController(ILogger<UserStatisticsController> logger)
+        public UserStatisticsController(ILogger<UserStatisticsController> logger, ApplicationContext context)
         {
+            _db = context;
             _logger = logger;
         }
 

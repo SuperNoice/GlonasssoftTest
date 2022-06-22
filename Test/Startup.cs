@@ -29,7 +29,7 @@ namespace Test
             var minProcessingTimeMilliseconds = Configuration.GetSection("MinProcessingTimeMiliseconds").Get<string>();
             var dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(dbConnectionString));
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(dbConnectionString), ServiceLifetime.Singleton);
 
             services.AddSingleton<string>(minProcessingTimeMilliseconds);
             services.AddControllers();
