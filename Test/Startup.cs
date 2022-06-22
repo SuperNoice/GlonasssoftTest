@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Test.Models;
+using Test.Services;
 
 namespace Test
 {
@@ -30,6 +31,7 @@ namespace Test
             var dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(dbConnectionString), ServiceLifetime.Singleton);
+            services.AddSingleton<DatabaseController>();
 
             services.AddSingleton<string>(minProcessingTimeMilliseconds);
             services.AddControllers();
