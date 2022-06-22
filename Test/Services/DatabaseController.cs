@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,11 +55,39 @@ namespace Test.Services
             {
                 var signIn = new SignIn()
                 {
-                    SignAt = DateTime.Now,
+                    SignAt = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
                     User = user
                 };
                 _db.SignIns.Add(signIn);
                 _db.SaveChanges();
+            }
+            );
+        }
+
+        public async Task AddUserStatisticsRequest(Request request)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                _db.Requests.Add(request);
+                _db.SaveChanges();
+            }
+            );
+        }
+
+        public async Task<Request> GetRequestByGuid(Guid guid)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                return _db.Requests.Include(request => request.User).LastOrDefault(request => request.Guid == guid);
+            }
+            );
+        }
+
+        public async Task<int> GetUserSignInsCount(Guid userGuid, long from, long to)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                return _db.SignIns.Include(singin => singin.User).Count(row => row.User.Guid == userGuid && row.SignAt >= from && row.SignAt <= to);
             }
             );
         }

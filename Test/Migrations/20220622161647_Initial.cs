@@ -27,7 +27,9 @@ namespace Test.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<long>(type: "bigint", nullable: false),
+                    From = table.Column<long>(type: "bigint", nullable: false),
+                    To = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -48,7 +50,7 @@ namespace Test.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
-                    SignAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SignAt = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

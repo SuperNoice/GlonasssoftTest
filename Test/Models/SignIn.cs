@@ -6,6 +6,9 @@ namespace Test.Models
     {
         public int Id { get; set; }
         public User User { get; set; }
-        public DateTime SignAt { get; set; }
+        /// <summary>
+        /// Use Unix time milliseconds
+        /// </summary>
+        public long SignAt { get; set; }
     }
 }

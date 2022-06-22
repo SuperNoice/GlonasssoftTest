@@ -27,13 +27,14 @@ namespace Test
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var minProcessingTimeMilliseconds = Configuration.GetSection("MinProcessingTimeMiliseconds").Get<string>();
+            var minProcessingTimeMilliseconds = Configuration.GetSection("MinProcessingTimeMiliseconds").Get<int>();
             var dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddSingleton(new RequestProcessingConfig() { MinProcessingTimeMilliseconds = minProcessingTimeMilliseconds });
 
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(dbConnectionString), ServiceLifetime.Singleton);
             services.AddSingleton<DatabaseController>();
 
-            services.AddSingleton<string>(minProcessingTimeMilliseconds);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -53,7 +54,7 @@ namespace Test
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
