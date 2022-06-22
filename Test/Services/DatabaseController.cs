@@ -75,7 +75,7 @@ namespace Test.Services
         {
             return await Task.Factory.StartNew(() =>
             {
-                return _db.Requests.Include(request => request.User).LastOrDefault(request => request.Guid == guid);
+                return _db.Requests.Include(request => request.User).FirstOrDefault(request => request.Guid == guid);
             }
             );
         }
