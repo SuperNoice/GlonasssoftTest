@@ -24,20 +24,21 @@ namespace Test.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(string userId)
         {
-
-            if (!Guid.TryParse(userId, out var userGuid))
-            {
-                return BadRequest();
-            }
-
             try
             {
+                if (!Guid.TryParse(userId, out var userGuid))
+                {
+                    return BadRequest();
+                }
+
                 var user = await _db.GetUserByGuid(new Guid(userId));
                 if (user == null)
                 {
                     return NotFound();
                 }
+
                 await _db.SignInUser(user);
+
                 return Ok();
             }
             catch (Exception e)
